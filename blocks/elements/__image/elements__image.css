@@ -1,7 +1,6 @@
 .elements__image {
 	object-fit: cover;
-	width: 282px;
-	height: 282px;
+	width: 100%;
 	grid-column-start: 1;
 	grid-column-end: 2;
 	border-radius: 10px 10px 0 0;

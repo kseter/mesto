@@ -11,9 +11,8 @@
 		justify-content: end;
 		grid-template-columns: 234px 38px;
 		grid-template-rows: auto auto;
-		margin-bottom: 36px;
+		margin-bottom: 30px;
 		margin-top: 26px;
 		column-gap: 10px;
-		max-height: 54px;
 	}
 }

@@ -2,12 +2,13 @@
 	border: none;
 	border-bottom: 1px solid rgb(0, 0, 0, .2);
 	width: 100%;
-	min-height: 27px;
-	padding: 0;
+	height: 27px;
+	padding: 0 0 13px 0;
 	box-sizing: border-box;
 	font-family: 'Inter', 'Arial', sans-serif;
 	font-style: normal;
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 17px;
+	box-sizing: border-box;
 }
