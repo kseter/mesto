@@ -3,4 +3,12 @@
 	max-width: 100%;
 	display: flex;
 	flex-direction: column;
+	border-bottom: 1px solid rgb(84, 84, 84, .7);
+}
+
+
+@media screen and (max-width: 350px) {
+	.header {
+		margin: 28px auto 0px;
+	}
 }

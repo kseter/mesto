@@ -9,8 +9,13 @@
 	column-gap: 30px;
 }
 
-@media screen and (max-width: 879px) {
+@media screen and (max-width: 807px) {
 	.profile {
-		max-width: 90%;
+		grid-template-columns: 282px;
+		grid-template-rows: auto auto auto auto;
+		margin: 42px auto 36px;
+		max-height: 286px;
+		max-width: 282px;
+		align-items: center;
 	}
 }
