@@ -9,5 +9,5 @@
 	overflow: hidden;
 	box-sizing: border-box;
 	max-width: calc(246px - 22px - 22px);
-	margin-bottom: 27px;
+	margin: 22px 0 28px;
 }
