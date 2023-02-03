@@ -3,18 +3,22 @@ const closeButton = document.querySelector('.popup__close-button');
 
 const popup = document.querySelector('.popup');
 let formElement = document.querySelector('.popup__form');
-let nameInput = document.querySelector('.popup__form-item_name');
-let aboutInput = document.querySelector('.popup__form-item_about');
+let nameInput = document.querySelector('.popup__form-item_user_name');
+let aboutInput = document.querySelector('.popup__form-item_user_about');
 let userName = document.querySelector('.profile__user-name');
 let userAbout = document.querySelector('.profile__user-about');
 
 const handleEditButtonClick = () => {
 	popup.classList.add('popup_opened')
+	nameInput.value = userName.textContent;
+	aboutInput.value = userAbout.textContent;
 };
+
 
 const handleCloseButtonClick = () => {
 	popup.classList.remove('popup_opened');
 };
+
 
 function handleFormSubmit(evt) {
 	evt.preventDefault();
