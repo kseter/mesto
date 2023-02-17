@@ -1,21 +1,44 @@
-const editButton = document.querySelector('.profile__edit-button');
-const closeButton = document.querySelector('.popup__close-button');
 
-const popup = document.querySelector('.popup');
+//buttons on profile section 
+const buttonEdit = document.querySelector('.profile__edit-button');
+const buttonClose = document.querySelector('.popup__close-button');
+
+//variables for pop-up in profile section 
+const popup = document.querySelector('.popup_type_user');
 let formElement = document.querySelector('.popup__form');
 let nameInput = document.querySelector('.popup__form-item_user_name');
 let aboutInput = document.querySelector('.popup__form-item_user_about');
 let userName = document.querySelector('.profile__user-name');
 let userAbout = document.querySelector('.profile__user-about');
 
-const handleEditButtonClick = () => {
-	popup.classList.add('popup_opened')
+
+//variables for pop-up to add a card 
+const cardAddButton = document.querySelector('.profile__add-button');
+const cardButtonClose = document.querySelector('.popup__close-button_type_add-button');
+const popupAddCard = document.querySelector('.popup_type_add-button');
+const formAddCard = document.querySelector('.popup__form_type_add-button');
+const cardNameInput = document.querySelector('.popup__form-item_card_name');
+const cardLinkInput = document.querySelector('.popup__form-item_card_link');
+
+const cardContainer = document.querySelector('.elements'); //get container for cards
+const cardTemplate = document.getElementById('card'); //get the template of card in elements 
+
+//variables for pop-up to fullscreen card image 
+const popupImageFullscreen = document.querySelector('.popup_type_image-fullscreen');
+const imageButtonClose = document.querySelector('.popup__close-button_type_image-fullscreen');
+const popupImage = document.querySelector('.popup__image');
+const popupParagraph = document.querySelector('.popup__paragraph');
+const buttonClosePopupImage = document.querySelector('.popup__close-button_type_image-fullscreen');
+
+//open-close pop-up with profile info 
+const handleButtonEditClick = () => {
+	popup.classList.add('popup_opened');
 	nameInput.value = userName.textContent;
 	aboutInput.value = userAbout.textContent;
 };
 
 
-const handleCloseButtonClick = () => {
+const handleButtonCloseClick = () => {
 	popup.classList.remove('popup_opened');
 };
 
@@ -26,10 +49,115 @@ function handleFormSubmit(evt) {
 	userName.textContent = nameInput.value;
 	userAbout.textContent = aboutInput.value;
 
-	handleCloseButtonClick();
+	handleButtonCloseClick();
 };
 
 formElement.addEventListener('submit', handleFormSubmit);
-editButton.addEventListener('click', handleEditButtonClick);
-closeButton.addEventListener('click', handleCloseButtonClick);
+buttonEdit.addEventListener('click', handleButtonEditClick);
+buttonClose.addEventListener('click', handleButtonCloseClick);
 
+//add cards array
+const initialCards = [
+	{
+		name: 'Архыз',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+	},
+	{
+		name: 'Челябинская область',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+	},
+	{
+		name: 'Иваново',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+	},
+	{
+		name: 'Камчатка',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+	},
+	{
+		name: 'Холмогорский район',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+	},
+	{
+		name: 'Байкал',
+		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+	}
+];
+
+//open-close pop-up with image 
+const openPopupImage = (link, name) => {
+	popupImageFullscreen.classList.add('popup_opened');
+	popupImage.src = link;
+	popupParagraph.textContent = name;
+};
+
+const closePopupImage = () => {
+	popupImageFullscreen.classList.remove('popup_opened');
+};
+
+//fuctions for buttons in cards 
+const handleButtonLike = (evt) => evt.target.classList.toggle('element__like-button_active'); //add active like button on click 
+const handleButtonDelete = (evt) => evt.target.closest('.element').remove(); //remove card on click 
+
+//get new element in DOM from card template in HTML
+const getCardElement = (link, name) => {
+	const newCardElement = cardTemplate.content.cloneNode(true); //cope card template 
+	const newCardTitle = newCardElement.querySelector('.element__text'); //add values to title 
+	newCardTitle.textContent = `${name}`;
+	const newCardImage = newCardElement.querySelector('.element__image'); //add values to link 
+	newCardImage.src = `${link}`;
+	const buttonLike = newCardElement.querySelector('.element__like-button'); //add active like button on click 
+	buttonLike.addEventListener('click', (handleButtonLike));
+	const buttonDelete = newCardElement.querySelector('.element__delete-button');
+	buttonDelete.addEventListener('click', (handleButtonDelete));
+	newCardImage.addEventListener('click', function () {
+		openPopupImage(link, name);
+	}); //open pop-up with image 
+	buttonClosePopupImage.addEventListener('click', (closePopupImage)); //close pop-up with image 
+	return newCardElement;
+};
+
+const renderCard = (link, name) => {
+	cardContainer.append(getCardElement(link, name));
+};
+
+initialCards.forEach((item) => {
+	renderCard(item.link, item.name);
+});
+
+
+//open-close pop-up with add card button 
+const handleAddButton = () => {
+	popupAddCard.classList.add('popup_opened');
+};
+
+const handleButtonClose = () => {
+	popupAddCard.classList.remove('popup_opened');
+};
+
+cardAddButton.addEventListener('click', handleAddButton);
+cardButtonClose.addEventListener('click', handleButtonClose);
+
+
+//add new card from pop-up
+const addNewCard = (evt) => { //create a function to add new card
+	evt.preventDefault();
+
+	const newAddedCard = cardTemplate.content.cloneNode(true); //clone card template 
+	const newAddedCardTitle = newAddedCard.querySelector('.element__text');
+	newAddedCardTitle.textContent = cardNameInput.value;
+	const newAddedCardLink = newAddedCard.querySelector('.element__image');
+	const buttonLike = newAddedCard.querySelector('.element__like-button'); //add active like button on click 
+	buttonLike.addEventListener('click', (handleButtonLike));
+	const buttonDelete = newAddedCard.querySelector('.element__delete-button');
+	buttonDelete.addEventListener('click', (handleButtonDelete));
+	newAddedCardLink.setAttribute('src', cardLinkInput.value); //add attribute to change image in card 
+	cardContainer.prepend(newAddedCard); //add card to first place in container 
+	newAddedCardLink.addEventListener('click', function () {
+		openPopupImage(cardLinkInput.value, cardNameInput.value);
+	});  //open pop-up with image 
+	buttonClosePopupImage.addEventListener('click', (closePopupImage)); //close pop-up with image 
+	handleButtonClose();
+};
+
+formAddCard.addEventListener('submit', addNewCard);
