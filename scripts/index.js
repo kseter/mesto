@@ -3,14 +3,17 @@
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonClose = document.querySelector('.popup__close-button');
 
-//variables for pop-up in profile section 
-const popup = document.querySelector('.popup_type_user');
-let formElement = document.querySelector('.popup__form');
-let nameInput = document.querySelector('.popup__form-item_user_name');
-let aboutInput = document.querySelector('.popup__form-item_user_about');
-let userName = document.querySelector('.profile__user-name');
-let userAbout = document.querySelector('.profile__user-about');
+//variables for close button 
+const closeButtons = document.querySelectorAll('.popup__close-button');
 
+//variables for pop-up in profile section 
+const popup = document.querySelector('.popup');
+const popupProfile = document.querySelector('.popup_type_user');
+const formElement = document.querySelector('.popup__form_type_user');
+const nameInput = document.querySelector('.popup__form-item_user_name');
+const aboutInput = document.querySelector('.popup__form-item_user_about');
+const userName = document.querySelector('.profile__user-name');
+const userAbout = document.querySelector('.profile__user-about');
 
 //variables for pop-up to add a card 
 const cardAddButton = document.querySelector('.profile__add-button');
@@ -30,18 +33,31 @@ const popupImage = document.querySelector('.popup__image');
 const popupParagraph = document.querySelector('.popup__paragraph');
 const buttonClosePopupImage = document.querySelector('.popup__close-button_type_image-fullscreen');
 
-//open-close pop-up with profile info 
-const handleButtonEditClick = () => {
+//variable for template 
+const createNewElement = () => cardTemplate.content.cloneNode(true);
+
+//open-close pop-up 
+const openPopup = (popup) => {
 	popup.classList.add('popup_opened');
-	nameInput.value = userName.textContent;
-	aboutInput.value = userAbout.textContent;
 };
 
-
-const handleButtonCloseClick = () => {
+const closePopup = (popup) => {
 	popup.classList.remove('popup_opened');
 };
 
+//close pop-up with close button
+closeButtons.forEach((button) => {
+	const popup = button.closest('.popup');
+	button.addEventListener('click', () => closePopup(popup));
+});
+
+
+//pop-up for profile section
+const handleButtonEditClick = () => {
+	nameInput.value = userName.textContent;
+	aboutInput.value = userAbout.textContent;
+	openPopup(popupProfile);
+};
 
 function handleFormSubmit(evt) {
 	evt.preventDefault();
@@ -49,12 +65,12 @@ function handleFormSubmit(evt) {
 	userName.textContent = nameInput.value;
 	userAbout.textContent = aboutInput.value;
 
-	handleButtonCloseClick();
+	closePopup(popupProfile);
 };
 
 formElement.addEventListener('submit', handleFormSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
-buttonClose.addEventListener('click', handleButtonCloseClick);
+buttonClose.addEventListener('click', closePopup);
 
 //add cards array
 const initialCards = [
@@ -86,13 +102,10 @@ const initialCards = [
 
 //open-close pop-up with image 
 const openPopupImage = (link, name) => {
-	popupImageFullscreen.classList.add('popup_opened');
+	openPopup(popupImageFullscreen);
 	popupImage.src = link;
 	popupParagraph.textContent = name;
-};
-
-const closePopupImage = () => {
-	popupImageFullscreen.classList.remove('popup_opened');
+	popupImage.setAttribute('alt', name);
 };
 
 //fuctions for buttons in cards 
@@ -101,11 +114,12 @@ const handleButtonDelete = (evt) => evt.target.closest('.element').remove(); //r
 
 //get new element in DOM from card template in HTML
 const getCardElement = (link, name) => {
-	const newCardElement = cardTemplate.content.cloneNode(true); //cope card template 
+	const newCardElement = createNewElement(); //clone card template 
 	const newCardTitle = newCardElement.querySelector('.element__text'); //add values to title 
 	newCardTitle.textContent = `${name}`;
 	const newCardImage = newCardElement.querySelector('.element__image'); //add values to link 
 	newCardImage.src = `${link}`;
+	newCardImage.setAttribute('alt', `${name}`);
 	const buttonLike = newCardElement.querySelector('.element__like-button'); //add active like button on click 
 	buttonLike.addEventListener('click', (handleButtonLike));
 	const buttonDelete = newCardElement.querySelector('.element__delete-button');
@@ -113,7 +127,6 @@ const getCardElement = (link, name) => {
 	newCardImage.addEventListener('click', function () {
 		openPopupImage(link, name);
 	}); //open pop-up with image 
-	buttonClosePopupImage.addEventListener('click', (closePopupImage)); //close pop-up with image 
 	return newCardElement;
 };
 
@@ -128,11 +141,11 @@ initialCards.forEach((item) => {
 
 //open-close pop-up with add card button 
 const handleAddButton = () => {
-	popupAddCard.classList.add('popup_opened');
+	openPopup(popupAddCard);
 };
 
 const handleButtonClose = () => {
-	popupAddCard.classList.remove('popup_opened');
+	closePopup(popupAddCard);
 };
 
 cardAddButton.addEventListener('click', handleAddButton);
@@ -143,7 +156,7 @@ cardButtonClose.addEventListener('click', handleButtonClose);
 const addNewCard = (evt) => { //create a function to add new card
 	evt.preventDefault();
 
-	const newAddedCard = cardTemplate.content.cloneNode(true); //clone card template 
+	const newAddedCard = createNewElement(); //clone card template 
 	const newAddedCardTitle = newAddedCard.querySelector('.element__text');
 	newAddedCardTitle.textContent = cardNameInput.value;
 	const newAddedCardLink = newAddedCard.querySelector('.element__image');
@@ -152,12 +165,13 @@ const addNewCard = (evt) => { //create a function to add new card
 	const buttonDelete = newAddedCard.querySelector('.element__delete-button');
 	buttonDelete.addEventListener('click', (handleButtonDelete));
 	newAddedCardLink.setAttribute('src', cardLinkInput.value); //add attribute to change image in card 
+	newAddedCardLink.setAttribute('alt', cardNameInput.value);
 	cardContainer.prepend(newAddedCard); //add card to first place in container 
 	newAddedCardLink.addEventListener('click', function () {
-		openPopupImage(cardLinkInput.value, cardNameInput.value);
+		openPopupImage(newAddedCardLink.src, newAddedCardTitle.textContent);
 	});  //open pop-up with image 
-	buttonClosePopupImage.addEventListener('click', (closePopupImage)); //close pop-up with image 
 	handleButtonClose();
+	evt.target.reset()
 };
 
 formAddCard.addEventListener('submit', addNewCard);
