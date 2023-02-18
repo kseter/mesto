@@ -17,7 +17,6 @@ const userAbout = document.querySelector('.profile__user-about');
 
 //variables for pop-up to add a card 
 const cardAddButton = document.querySelector('.profile__add-button');
-const cardButtonClose = document.querySelector('.popup__close-button_type_add-button');
 const popupAddCard = document.querySelector('.popup_type_add-button');
 const formAddCard = document.querySelector('.popup__form_type_add-button');
 const cardNameInput = document.querySelector('.popup__form-item_card_name');
@@ -45,12 +44,12 @@ const closePopup = (popup) => {
 	popup.classList.remove('popup_opened');
 };
 
+
 //close pop-up with close button
 closeButtons.forEach((button) => {
 	const popup = button.closest('.popup');
 	button.addEventListener('click', () => closePopup(popup));
 });
-
 
 //pop-up for profile section
 const handleButtonEditClick = () => {
@@ -70,7 +69,6 @@ function handleFormSubmit(evt) {
 
 formElement.addEventListener('submit', handleFormSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
-buttonClose.addEventListener('click', closePopup);
 
 //add cards array
 const initialCards = [
@@ -100,6 +98,24 @@ const initialCards = [
 	}
 ];
 
+//get new element in DOM from card template in HTML 
+const getCardElement = (link, name) => {
+	const newCardElement = createNewElement(); //clone card template 
+	const newCardTitle = newCardElement.querySelector('.element__text'); //add values to title 
+	const newCardImage = newCardElement.querySelector('.element__image'); //add values to link 
+	const buttonLike = newCardElement.querySelector('.element__like-button'); //add active like button on click 
+	const buttonDelete = newCardElement.querySelector('.element__delete-button');
+	newCardTitle.textContent = name;
+	newCardImage.src = link;
+	newCardImage.setAttribute('alt', name);
+	buttonLike.addEventListener('click', (handleButtonLike));
+	buttonDelete.addEventListener('click', (handleButtonDelete));
+	newCardImage.addEventListener('click', function () {
+		openPopupImage(link, name);
+	}); //open pop-up with image 
+	return newCardElement;
+};
+
 //open-close pop-up with image 
 const openPopupImage = (link, name) => {
 	openPopup(popupImageFullscreen);
@@ -112,22 +128,9 @@ const openPopupImage = (link, name) => {
 const handleButtonLike = (evt) => evt.target.classList.toggle('element__like-button_active'); //add active like button on click 
 const handleButtonDelete = (evt) => evt.target.closest('.element').remove(); //remove card on click 
 
-//get new element in DOM from card template in HTML
-const getCardElement = (link, name) => {
-	const newCardElement = createNewElement(); //clone card template 
-	const newCardTitle = newCardElement.querySelector('.element__text'); //add values to title 
-	newCardTitle.textContent = `${name}`;
-	const newCardImage = newCardElement.querySelector('.element__image'); //add values to link 
-	newCardImage.src = `${link}`;
-	newCardImage.setAttribute('alt', `${name}`);
-	const buttonLike = newCardElement.querySelector('.element__like-button'); //add active like button on click 
-	buttonLike.addEventListener('click', (handleButtonLike));
-	const buttonDelete = newCardElement.querySelector('.element__delete-button');
-	buttonDelete.addEventListener('click', (handleButtonDelete));
-	newCardImage.addEventListener('click', function () {
-		openPopupImage(link, name);
-	}); //open pop-up with image 
-	return newCardElement;
+//create card element from template
+const createCardElement = (link, name) => {
+	const card = getCardElement(`${link}`, `${name}`);
 };
 
 const renderCard = (link, name) => {
@@ -144,34 +147,20 @@ const handleAddButton = () => {
 	openPopup(popupAddCard);
 };
 
-const handleButtonClose = () => {
-	closePopup(popupAddCard);
-};
-
 cardAddButton.addEventListener('click', handleAddButton);
-cardButtonClose.addEventListener('click', handleButtonClose);
 
 
 //add new card from pop-up
 const addNewCard = (evt) => { //create a function to add new card
 	evt.preventDefault();
 
-	const newAddedCard = createNewElement(); //clone card template 
-	const newAddedCardTitle = newAddedCard.querySelector('.element__text');
-	newAddedCardTitle.textContent = cardNameInput.value;
-	const newAddedCardLink = newAddedCard.querySelector('.element__image');
-	const buttonLike = newAddedCard.querySelector('.element__like-button'); //add active like button on click 
-	buttonLike.addEventListener('click', (handleButtonLike));
-	const buttonDelete = newAddedCard.querySelector('.element__delete-button');
-	buttonDelete.addEventListener('click', (handleButtonDelete));
-	newAddedCardLink.setAttribute('src', cardLinkInput.value); //add attribute to change image in card 
-	newAddedCardLink.setAttribute('alt', cardNameInput.value);
-	cardContainer.prepend(newAddedCard); //add card to first place in container 
-	newAddedCardLink.addEventListener('click', function () {
-		openPopupImage(newAddedCardLink.src, newAddedCardTitle.textContent);
-	});  //open pop-up with image 
-	handleButtonClose();
-	evt.target.reset()
+	const newCard = getCardElement(cardLinkInput.value, cardNameInput.value)
+
+	cardContainer.prepend(newCard); //add card to first place in container 
+
+	closePopup(popupAddCard);
+	evt.target.reset();
 };
 
 formAddCard.addEventListener('submit', addNewCard);
+
