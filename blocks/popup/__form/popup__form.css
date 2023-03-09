@@ -2,10 +2,10 @@
 	min-width: 358px;
 	display: flex;
 	flex-direction: column;
-	gap: 13px;
 	align-items: center;
 	justify-content: center;
 	margin: 0 auto 0;
+	height: 100%;
 }
 
 @media screen and (max-width: 545px) {

@@ -10,7 +10,7 @@ const selectors = {
 	closeButtonsSelector: '.popup__close-button',
 	popupSelector: '.popup',
 	popupProfileSelector: '.popup_type_user',
-	formElementSelector: '.popup__form_type_user',
+	formProfileSelector: '.popup__form_type_user',
 	nameInputSelector: '.popup__form-item_user_name',
 	aboutInputSelector: '.popup__form-item_user_about',
 	userNameSelector: '.profile__user-name',
@@ -37,9 +37,9 @@ const buttonEdit = document.querySelector(selectors.buttonEditSelector);
 const closeButtons = document.querySelectorAll(selectors.closeButtonsSelector);
 
 //variables for pop-up in profile section 
-const popup = Array.from(document.querySelectorAll(selectors.popupSelector));
+const popups = Array.from(document.querySelectorAll(selectors.popupSelector));
 const popupProfile = document.querySelector(selectors.popupProfileSelector);
-const formElement = document.querySelector(selectors.formElementSelector);
+const formProfile = document.querySelector(selectors.formProfileSelector);
 const nameInput = document.querySelector(selectors.nameInputSelector);
 const aboutInput = document.querySelector(selectors.aboutInputSelector);
 const userName = document.querySelector(selectors.userNameSelector);
@@ -66,13 +66,22 @@ const buttonClosePopupImage = document.querySelector(selectors.buttonClosePopupI
 //variable for template 
 const createNewElement = () => cardTemplate.content.cloneNode(true);
 
+//close pop-up with Esc 
+function closeEscClick(evt, popup) {
+	if (evt.key === 'Escape') {
+		popup.classList.remove(selectors.popupOpenSelector);
+	};
+};
+
 //open-close pop-up 
 const openPopup = (popup) => {
 	popup.classList.add(selectors.popupOpenSelector);
+	popup.addEventListener('keydown', closeEscClick);
 };
 
 const closePopup = (popup) => {
 	popup.classList.remove(selectors.popupOpenSelector);
+	popup.removeEventListener('keydown', closeEscClick);
 };
 
 //close pop-up with close button
@@ -88,7 +97,7 @@ const handleButtonEditClick = () => {
 	openPopup(popupProfile);
 };
 
-function handleFormSubmit(evt) {
+function handleFormProfileSubmit(evt) {
 	evt.preventDefault();
 
 	userName.textContent = nameInput.value;
@@ -99,47 +108,19 @@ function handleFormSubmit(evt) {
 
 function handleOverlayClick(evt) {
 	if (evt.target === evt.currentTarget) {
-		popup.forEach(closePopup);
+		popups.forEach(closePopup);
 	};
 };
 
-formElement.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleFormProfileSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
-popup.forEach(item => item.addEventListener('click', handleOverlayClick));
-popup.forEach(item => addEventListener('keydown', function (evt) {
+popups.forEach(item => item.addEventListener('mousedown', handleOverlayClick));
+popups.forEach(item => addEventListener('keydown', function (evt) {
 	if (evt.key === 'Escape') {
-		popup.forEach(closePopup);
+		popups.forEach(closePopup);
 	};
 }));
 
-
-//add cards array
-const initialCards = [
-	{
-		name: 'Архыз',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-	},
-	{
-		name: 'Челябинская область',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-	},
-	{
-		name: 'Иваново',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-	},
-	{
-		name: 'Камчатка',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-	},
-	{
-		name: 'Холмогорский район',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-	},
-	{
-		name: 'Байкал',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-	}
-];
 
 //get new element in DOM from card template in HTML 
 const getCardElement = (link, name) => {
@@ -203,6 +184,7 @@ const addNewCard = (evt) => { //create a function to add new card
 
 	closePopup(popupAddCard);
 	evt.target.reset();
+	disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
 };
 
 formAddCard.addEventListener('submit', addNewCard);

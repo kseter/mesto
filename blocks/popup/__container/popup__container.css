@@ -1,6 +1,6 @@
 .popup__container {
 	display: grid;
-	grid-template-rows: 63px 252px;
+	grid-template-rows: 63px minmax(252px, auto);
 	background-color: white;
 	border-radius: 10px;
 	max-width: 430px;
