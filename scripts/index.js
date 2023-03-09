@@ -66,12 +66,6 @@ const buttonClosePopupImage = document.querySelector(selectors.buttonClosePopupI
 //variable for template 
 const createNewElement = () => cardTemplate.content.cloneNode(true);
 
-//close pop-up with Esc 
-function closeEscClick(evt, popup) {
-	if (evt.key === 'Escape') {
-		popup.classList.remove(selectors.popupOpenSelector);
-	};
-};
 
 //open-close pop-up 
 const openPopup = (popup) => {
@@ -82,6 +76,13 @@ const openPopup = (popup) => {
 const closePopup = (popup) => {
 	popup.classList.remove(selectors.popupOpenSelector);
 	popup.removeEventListener('keydown', closeEscClick);
+};
+
+//close pop-up with Esc 
+function closeEscClick(evt, popup) {
+	if (evt.key === 'Escape') {
+		closePopup(popup);
+	};
 };
 
 //close pop-up with close button
