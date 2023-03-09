@@ -1,0 +1,6 @@
+.popup__form-section {
+	display: grid;
+	grid-template-rows: 27px 15px;
+	gap: 5px;
+	width: 100%;
+}

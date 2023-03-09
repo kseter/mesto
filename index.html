@@ -32,27 +32,42 @@
 		<div class="popup__container">
 			<h2 class="popup__title">Редактировать профиль</h2>
 			<button type="button" class="popup__close-button" value=" " aria-label="Закрыть"></button>
-			<form action="test" method="get" class="popup__form popup__form_type_user" name="profile-form">
-				<input type="text" class="popup__form-item popup__form-item_user_name" value="" name="user-name"
-					placeholder="Введите имя" required>
-				<input type="text" class="popup__form-item popup__form-item_user_about" value="" name="user-about"
-					placeholder="Какова Ваша профессия?" required>
-				<input type="submit" value="Сохранить" class="popup__save-button" aria-label="Сохранить">
+			<form action="test" method="get" class="popup__form popup__form_type_user" name="profile" id="profile-form"
+				novalidate>
+				<div class="popup__form-section">
+					<input type="text" class="popup__form-item popup__form-item_user_name popup__input" value=" " name="user-name"
+						id="user-name-input" minlength="2" maxlength="40" placeholder="Введите имя" required>
+					<span class="popup__form-item popup__form-item_error"></span>
+				</div>
+				<div class="popup__form-section">
+					<input type="text" class="popup__form-item popup__form-item_user_about popup__input" value=""
+						name="user-about" id="user-about-input" minlength="2" maxlength="200" placeholder="Какова Ваша профессия?"
+						required>
+					<span class="popup__form-item popup__form-item_error"></span>
+					<input type="submit" value="Сохранить" class="popup__save-button" aria-label="Сохранить">
+				</div>
 			</form>
 		</div>
 	</section>
-	<section class="popup popup_type_add-button">
+	<section class="popup popup_type_new-place">
 		<div class="popup__container">
 			<h2 class="popup__title">Новое место</h2>
-			<button type="button" class="popup__close-button popup__close-button_type_add-button" value=" "
+			<button type="button" class="popup__close-button popup__close-button_type_new-place" value=" "
 				aria-label="Закрыть"></button>
-			<form action="test" method="get" class="popup__form popup__form_type_add-button" name="profile-form">
-				<input type="text" class="popup__form-item popup__form-item_card_name" value="" name="card-name"
-					placeholder="Название" required>
-				<input type="text" class="popup__form-item popup__form-item_card_link" value="" name="card-link"
-					placeholder="Ссылка на картинку" required>
-				<input type="submit" value="Создать" class="popup__save-button popup__save-button_type_add-button"
-					aria-label="Создать">
+			<form action="test" method="get" class="popup__form popup__form_type_new-place" name="place" id="place-form"
+				novalidate>
+				<div class="popup__form-section">
+					<input type="text" class="popup__form-item popup__form-item_card_name popup__input" value="" name="card-name"
+						id="card-name-input" minlength="2" maxlength="30" placeholder="Название" required>
+					<span class="popup__form-item popup__form-item_error card-name-input-error"></span>
+				</div>
+				<div class="popup__form-section">
+					<input type="url" class="popup__form-item popup__form-item_card_link popup__input" value="" name="card-link"
+						id="card-link-input" placeholder="Ссылка на картинку" required>
+					<span class="popup__form-item popup__form-item_error card-link-input-error"></span>
+					<input type="submit" value="Создать" class="popup__save-button popup__save-button_type_new-place"
+						aria-label="Создать">
+				</div>
 			</form>
 		</div>
 	</section>
@@ -76,6 +91,7 @@
 			</div>
 		</article>
 	</template>
+	<script src="./scripts/validate.js"></script>
 	<script src="./scripts/index.js"></script>
 </body>
 
