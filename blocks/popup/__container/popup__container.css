@@ -14,7 +14,7 @@
 
 @media screen and (max-width: 545px) {
 	.popup__container {
-		grid-template-rows: 47px 265px;
+		grid-template-rows: 47px minmax(265px, auto);
 		row-gap: 10px;
 		max-width: 282px;
 		margin-top: 0;

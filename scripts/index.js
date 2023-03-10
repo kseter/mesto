@@ -66,24 +66,25 @@ const buttonClosePopupImage = document.querySelector(selectors.buttonClosePopupI
 //variable for template 
 const createNewElement = () => cardTemplate.content.cloneNode(true);
 
+//close pop-up with Esc 
+function closeEscClick(evt) {
+	if (evt.key === 'Escape') {
+		const openedPopup = document.querySelector('.popup_opened');
+		closePopup(openedPopup);
+	};
+};
 
 //open-close pop-up 
 const openPopup = (popup) => {
 	popup.classList.add(selectors.popupOpenSelector);
-	popup.addEventListener('keydown', closeEscClick);
+	document.addEventListener('keydown', closeEscClick);
 };
 
 const closePopup = (popup) => {
 	popup.classList.remove(selectors.popupOpenSelector);
-	popup.removeEventListener('keydown', closeEscClick);
+	document.removeEventListener('keydown', closeEscClick);
 };
 
-//close pop-up with Esc 
-function closeEscClick(evt, popup) {
-	if (evt.key === 'Escape') {
-		closePopup(popup);
-	};
-};
 
 //close pop-up with close button
 closeButtons.forEach((button) => {
@@ -116,12 +117,6 @@ function handleOverlayClick(evt) {
 formProfile.addEventListener('submit', handleFormProfileSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
 popups.forEach(item => item.addEventListener('mousedown', handleOverlayClick));
-popups.forEach(item => addEventListener('keydown', function (evt) {
-	if (evt.key === 'Escape') {
-		popups.forEach(closePopup);
-	};
-}));
-
 
 //get new element in DOM from card template in HTML 
 const getCardElement = (link, name) => {

@@ -12,6 +12,6 @@
 	.popup__form {
 		min-width: 238px;
 		grid-template-columns: 238px;
-		padding-top: 65px;
+		padding-top: 30px;
 	}
 }
