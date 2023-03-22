@@ -1,5 +1,13 @@
+import {
+	initialCards, popupImageFullscreen, popupImage,
+	popupParagraph, cardContainer, Card
+} from './Card.js';
 
-const selectors = {
+import {
+	FormValidator
+} from './FormValidator.js'
+
+export const selectors = {
 	formSelector: '.popup__form',
 	inputSelector: '.popup__input',
 	buttonSaveSelector: '.popup__save-button',
@@ -28,7 +36,9 @@ const selectors = {
 	popupParagraphSelector: '.popup__paragraph',
 	buttonClosePopupImageSelector: '.popup__close-button_type_image-fullscreen',
 	popupOpenSelector: 'popup_opened',
+	formInputSectionSelector: '.popup__form-section',
 }
+
 
 //buttons on profile section 
 const buttonEdit = document.querySelector(selectors.buttonEditSelector);
@@ -52,22 +62,8 @@ const formAddCard = document.querySelector(selectors.formAddCardSelector);
 const cardNameInput = document.querySelector(selectors.cardNameInputSelector);
 const cardLinkInput = document.querySelector(selectors.cardLinkInputSelector);
 
-const cardContainer = document.querySelector(selectors.cardContainerSelector); //get container for cards
-const cardTemplate = document.getElementById(selectors.cardTemplateSelector); //get the template of card in elements 
-
-//variables for pop-up to fullscreen card image 
-const popupImageFullscreen = document.querySelector(selectors.popupImageFullscreenSelector);
-const imageButtonClose = document.querySelector(selectors.imageButtonCloseSelector);
-const popupImage = document.querySelector(selectors.popupImageSelector);
-const popupParagraph = document.querySelector(selectors.popupParagraphSelector);
-const buttonClosePopupImage = document.querySelector(selectors.buttonClosePopupImageSelector);
-
-
-//variable for template 
-const createNewElement = () => cardTemplate.content.cloneNode(true);
-
 //close pop-up with Esc 
-function closeEscClick(evt) {
+export function closeEscClick(evt) {
 	if (evt.key === 'Escape') {
 		const openedPopup = document.querySelector('.popup_opened');
 		closePopup(openedPopup);
@@ -91,6 +87,14 @@ closeButtons.forEach((button) => {
 	const popup = button.closest('.popup');
 	button.addEventListener('click', () => closePopup(popup));
 });
+
+//open-close pop-up with image 
+const openPopupImage = (name, link) => {
+	openPopup(popupImageFullscreen);
+	popupImage.src = link;
+	popupParagraph.textContent = name;
+	popupImage.setAttribute('alt', name);
+};
 
 //pop-up for profile section
 const handleButtonEditClick = () => {
@@ -118,48 +122,39 @@ formProfile.addEventListener('submit', handleFormProfileSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
 popups.forEach(item => item.addEventListener('mousedown', handleOverlayClick));
 
-//get new element in DOM from card template in HTML 
-const getCardElement = (link, name) => {
-	const newCardElement = createNewElement(); //clone card template 
-	const newCardTitle = newCardElement.querySelector('.element__text'); //add values to title 
-	const newCardImage = newCardElement.querySelector('.element__image'); //add values to link 
-	const buttonLike = newCardElement.querySelector('.element__like-button'); //add active like button on click 
-	const buttonDelete = newCardElement.querySelector('.element__delete-button');
-	newCardTitle.textContent = name;
-	newCardImage.src = link;
-	newCardImage.setAttribute('alt', name);
-	buttonLike.addEventListener('click', (handleButtonLike));
-	buttonDelete.addEventListener('click', (handleButtonDelete));
-	newCardImage.addEventListener('click', function () {
-		openPopupImage(link, name);
-	}); //open pop-up with image 
-	return newCardElement;
-};
 
-//open-close pop-up with image 
-const openPopupImage = (link, name) => {
-	openPopup(popupImageFullscreen);
-	popupImage.src = link;
-	popupParagraph.textContent = name;
-	popupImage.setAttribute('alt', name);
-};
-
-//fuctions for buttons in cards 
-const handleButtonLike = (evt) => evt.target.classList.toggle('element__like-button_active'); //add active like button on click 
-const handleButtonDelete = (evt) => evt.target.closest('.element').remove(); //remove card on click 
-
-//create card element from template
-const createCardElement = (link, name) => {
-	const card = getCardElement(`${link}`, `${name}`);
-};
-
-const renderCard = (link, name) => {
-	cardContainer.append(getCardElement(link, name));
-};
-
+//show cards 
 initialCards.forEach((item) => {
-	renderCard(item.link, item.name);
+	const card = new Card(item.name, item.link, 'card', openPopupImage);
+	const cardElement = card.generateCard();
+	cardContainer.append(cardElement);
 });
+
+
+//create new card from form 
+function createNewcard() {
+	const card = new Card(cardNameInput.value, cardLinkInput.value, 'card', openPopupImage);
+	const cardElement = card.generateCard();
+	cardContainer.prepend(cardElement);
+};
+
+const disableButton = (buttonElement) => {
+	buttonElement.setAttribute('disabled', true);
+	buttonElement.classList.add(selectors.buttonSaveActiveSelector);
+};
+
+//add new card from pop-up
+const addNewCard = (evt) => { //create a function to add new card
+	evt.preventDefault();
+
+	createNewcard();
+
+	closePopup(popupAddCard);
+	evt.target.reset();
+	disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
+};
+
+formAddCard.addEventListener('submit', addNewCard);
 
 
 //open-close pop-up with add card button 
@@ -169,20 +164,11 @@ const handleAddButton = () => {
 
 cardAddButton.addEventListener('click', handleAddButton);
 
+//enableValidation(selectors);
 
-//add new card from pop-up
-const addNewCard = (evt) => { //create a function to add new card
-	evt.preventDefault();
-
-	const newCard = getCardElement(cardLinkInput.value, cardNameInput.value)
-
-	cardContainer.prepend(newCard); //add card to first place in container 
-
-	closePopup(popupAddCard);
-	evt.target.reset();
-	disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
-};
-
-formAddCard.addEventListener('submit', addNewCard);
-
-enableValidation(selectors);
+//validation
+const forms = Array.from(document.forms);
+forms.forEach((item) => {
+	const validatedForm = new FormValidator(selectors, item);
+	validatedForm.enableValidation();
+});
