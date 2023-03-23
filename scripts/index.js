@@ -1,5 +1,5 @@
 import {
-	initialCards, popupImageFullscreen, popupImage,
+	initialCards, popupImage,
 	popupParagraph, cardContainer, Card
 } from './Card.js';
 
@@ -49,7 +49,7 @@ const closeButtons = document.querySelectorAll(selectors.closeButtonsSelector);
 //variables for pop-up in profile section 
 const popups = Array.from(document.querySelectorAll(selectors.popupSelector));
 const popupProfile = document.querySelector(selectors.popupProfileSelector);
-const formProfile = document.querySelector(selectors.formProfileSelector);
+const formProfile = document.forms['profile-form'];
 const nameInput = document.querySelector(selectors.nameInputSelector);
 const aboutInput = document.querySelector(selectors.aboutInputSelector);
 const userName = document.querySelector(selectors.userNameSelector);
@@ -58,16 +58,26 @@ const userAbout = document.querySelector(selectors.userAboutSelector);
 //variables for pop-up to add a card 
 const cardAddButton = document.querySelector(selectors.cardAddButtonSelector);
 const popupAddCard = document.querySelector(selectors.popupAddCardSelector);
-const formAddCard = document.querySelector(selectors.formAddCardSelector);
+const formAddCard = document.forms['place-form'];
 const cardNameInput = document.querySelector(selectors.cardNameInputSelector);
 const cardLinkInput = document.querySelector(selectors.cardLinkInputSelector);
 
+const popupImageFullscreen = document.querySelector('.popup_type_image-fullscreen');
+
 //close pop-up with Esc 
-export function closeEscClick(evt) {
+function closeEscClick(evt) {
 	if (evt.key === 'Escape') {
 		const openedPopup = document.querySelector('.popup_opened');
 		closePopup(openedPopup);
 	};
+};
+
+//open fullscreen image popup
+export const openPopupImage = (name, link) => {
+	openPopup(popupImageFullscreen);
+	popupImage.src = link;
+	popupParagraph.textContent = name;
+	popupImage.setAttribute('alt', name);
 };
 
 //open-close pop-up 
@@ -88,13 +98,6 @@ closeButtons.forEach((button) => {
 	button.addEventListener('click', () => closePopup(popup));
 });
 
-//open-close pop-up with image 
-const openPopupImage = (name, link) => {
-	openPopup(popupImageFullscreen);
-	popupImage.src = link;
-	popupParagraph.textContent = name;
-	popupImage.setAttribute('alt', name);
-};
 
 //pop-up for profile section
 const handleButtonEditClick = () => {
@@ -122,36 +125,35 @@ formProfile.addEventListener('submit', handleFormProfileSubmit);
 buttonEdit.addEventListener('click', handleButtonEditClick);
 popups.forEach(item => item.addEventListener('mousedown', handleOverlayClick));
 
+//create a card 
+function createCard(item) {
+	const card = new Card(item.name, item.link, 'card', openPopupImage);
+	const cardElement = card.generateCard();
+	return cardElement;
+};
 
 //show cards 
 initialCards.forEach((item) => {
-	const card = new Card(item.name, item.link, 'card', openPopupImage);
-	const cardElement = card.generateCard();
+	const cardElement = createCard(item);
 	cardContainer.append(cardElement);
 });
 
-
 //create new card from form 
-function createNewcard() {
-	const card = new Card(cardNameInput.value, cardLinkInput.value, 'card', openPopupImage);
-	const cardElement = card.generateCard();
+function createNewCard() {
+	const item = { name: cardNameInput.value, link: cardLinkInput.value };
+	const cardElement = createCard(item);
 	cardContainer.prepend(cardElement);
-};
-
-const disableButton = (buttonElement) => {
-	buttonElement.setAttribute('disabled', true);
-	buttonElement.classList.add(selectors.buttonSaveActiveSelector);
 };
 
 //add new card from pop-up
 const addNewCard = (evt) => { //create a function to add new card
 	evt.preventDefault();
 
-	createNewcard();
+	createNewCard();
 
 	closePopup(popupAddCard);
 	evt.target.reset();
-	disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
+	validationCardForm.disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
 };
 
 formAddCard.addEventListener('submit', addNewCard);
@@ -164,11 +166,9 @@ const handleAddButton = () => {
 
 cardAddButton.addEventListener('click', handleAddButton);
 
-//enableValidation(selectors);
+//validation for forms 
+const validationProfileForm = new FormValidator(selectors, formProfile);
+validationProfileForm.enableValidation();
 
-//validation
-const forms = Array.from(document.forms);
-forms.forEach((item) => {
-	const validatedForm = new FormValidator(selectors, item);
-	validatedForm.enableValidation();
-});
+const validationCardForm = new FormValidator(selectors, formAddCard);
+validationCardForm.enableValidation();

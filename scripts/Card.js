@@ -1,4 +1,4 @@
-import { closeEscClick } from "./index.js";
+import { openPopupImage } from "./index.js";
 
 //add cards array
 const initialCards = [
@@ -28,16 +28,16 @@ const initialCards = [
 	}
 ];
 
-const popupImageFullscreen = document.querySelector('.popup_type_image-fullscreen');
 const popupImage = document.querySelector('.popup__image');
 const popupParagraph = document.querySelector('.popup__paragraph');
 const cardContainer = document.querySelector('.elements'); //get container for cards
 
 class Card {
-	constructor(name, link, templateSelector) {
+	constructor(name, link, templateSelector, openPopupImage) {
 		this._name = name;
 		this._link = link;
 		this._templateSelector = templateSelector;
+		this._openPopupImage = openPopupImage;
 	};
 
 	_getTemplate() {
@@ -49,21 +49,11 @@ class Card {
 	generateCard() {
 		this._element = this._getTemplate();
 		this._setEventListeners();
-
 		this._element.querySelector('.element__text').textContent = `${this._name}`;
-		this._element.querySelector('.element__image').src = `${this._link}`;
-		this._element.querySelector('.element__image').setAttribute('alt', `${this._name}`);
+		this._cardImage.src = `${this._link}`;
+		this._cardImage.setAttribute('alt', `${this._name}`);
 
 		return this._element;
-	};
-
-	_openPopupImage() {
-		popupImage.src = this._link;
-		popupParagraph.textContent = `${this._name}`;
-		popupImage.setAttribute('alt', `${this._name}`);
-
-		popupImageFullscreen.classList.add('popup_opened');
-		document.addEventListener('keydown', closeEscClick);
 	};
 
 	_handleButtonLike() {
@@ -75,8 +65,9 @@ class Card {
 
 
 	_setEventListeners() {
-		this._element.querySelector('.element__image').addEventListener('click', () => {
-			this._openPopupImage()
+		this._cardImage = this._element.querySelector('.element__image');
+		this._cardImage.addEventListener('click', () => {
+			this._openPopupImage(this._name, this._link);
 		});
 
 		this._buttonLike = this._element.querySelector('.element__like-button');
@@ -94,6 +85,6 @@ class Card {
 
 
 export {
-	initialCards, popupImageFullscreen, popupImage,
+	initialCards, popupImage,
 	popupParagraph, cardContainer, Card
 };
