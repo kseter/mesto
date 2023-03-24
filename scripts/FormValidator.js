@@ -31,14 +31,14 @@ export class FormValidator {
 		};
 	};
 
-	_enableButton(buttonElement) {
-		buttonElement.removeAttribute('disabled');
-		buttonElement.classList.remove(this._buttonSaveActiveSelector);
+	_enableButton() {
+		this._buttonSubmit.removeAttribute('disabled');
+		this._buttonSubmit.classList.remove(this._buttonSaveActiveSelector);
 	};
 
-	disableButton(buttonElement) {
-		buttonElement.setAttribute('disabled', true);
-		buttonElement.classList.add(this._buttonSaveActiveSelector);
+	disableButton() {
+		this._buttonSubmit.setAttribute('disabled', true);
+		this._buttonSubmit.classList.add(this._buttonSaveActiveSelector);
 	};
 
 	_toggleButtonState(inputs, buttonSubmit) {

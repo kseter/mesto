@@ -153,7 +153,7 @@ const addNewCard = (evt) => { //create a function to add new card
 
 	closePopup(popupAddCard);
 	evt.target.reset();
-	validationCardForm.disableButton(popupAddCard.querySelector(selectors.buttonSaveSelector));
+	validationCardForm.disableButton();
 };
 
 formAddCard.addEventListener('submit', addNewCard);
@@ -172,3 +172,4 @@ validationProfileForm.enableValidation();
 
 const validationCardForm = new FormValidator(selectors, formAddCard);
 validationCardForm.enableValidation();
+
