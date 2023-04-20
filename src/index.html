@@ -6,16 +6,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mesto</title>
-	<link rel="stylesheet" href="./pages/index.css">
+	<!-- <link rel="stylesheet" href="./index.css"> -->
 </head>
 
 <body class="page">
 	<header class="header">
-		<img src="./images/logo.svg" alt="Лого Mesto" class="header__logo">
+		<img src="<%=require('./images/logo.svg')%>" alt="Лого Mesto" class="header__logo">
 	</header>
 	<main class="content">
 		<section class="profile">
-			<img src="./images/Avatar.jpg" alt="Фото" class="profile__avatar">
+			<img src="<%=require('./images/Avatar.jpg')%>" alt="Фото" class="profile__avatar">
 			<div class="profile__info">
 				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
 				<button type="button" class="profile__edit-button"></button>
@@ -35,19 +35,19 @@
 			<form action="test" method="get" class="popup__form popup__form_type_user" name="profile" id="profile-form"
 				novalidate>
 				<div class="popup__form-section">
-					<input type="text" class="popup__form-item popup__form-item_user_name popup__input" value=" " name="user-name"
+					<input type="text" class="popup__form-item popup__form-item_user_name popup__input" value=" " name="name"
 						id="user-name-input" minlength="2" maxlength="40" placeholder="Введите имя" required>
 					<span class="popup__form-item popup__form-item_error"></span>
 				</div>
 				<div class="popup__form-section">
 					<input type="text" class="popup__form-item popup__form-item_user_about popup__input" value=""
-						name="user-about" id="user-about-input" minlength="2" maxlength="200" placeholder="Какова Ваша профессия?"
+						name="about" id="user-about-input" minlength="2" maxlength="200" placeholder="Какова Ваша профессия?"
 						required>
 					<span class="popup__form-item popup__form-item_error"></span>
 					<input type="submit" value="Сохранить" class="popup__save-button" aria-label="Сохранить">
 				</div>
 			</form>
-		</div>
+		</div> 
 	</section>
 	<section class="popup popup_type_new-place">
 		<div class="popup__container">
@@ -57,12 +57,12 @@
 			<form action="test" method="get" class="popup__form popup__form_type_new-place" name="place" id="place-form"
 				novalidate>
 				<div class="popup__form-section">
-					<input type="text" class="popup__form-item popup__form-item_card_name popup__input" value="" name="card-name"
+					<input type="text" class="popup__form-item popup__form-item_card_name popup__input" value="" name="name"
 						id="card-name-input" minlength="2" maxlength="30" placeholder="Название" required>
 					<span class="popup__form-item popup__form-item_error card-name-input-error"></span>
 				</div>
 				<div class="popup__form-section">
-					<input type="url" class="popup__form-item popup__form-item_card_link popup__input" value="" name="card-link"
+					<input type="url" class="popup__form-item popup__form-item_card_link popup__input" value="" name="link"
 						id="card-link-input" placeholder="Ссылка на картинку" required>
 					<span class="popup__form-item popup__form-item_error card-link-input-error"></span>
 					<input type="submit" value="Создать" class="popup__save-button popup__save-button_type_new-place"
@@ -76,14 +76,14 @@
 			<div class="popup__image-container">
 				<button type="button" class="popup__close-button popup__close-button_type_image-fullscreen" value=" "
 					aria-label="Закрыть"></button>
-				<img src="./images/kirill-pershin-1088404-unsplash.jpg" class="popup__image" alt="Карачаевск">
+				<img src="<%=require('./images/kirill-pershin-1088404-unsplash.jpg')%>" class="popup__image" alt="Карачаевск">
 				<p class="popup__paragraph">Карачаевск</p>
 			</div>
 		</div>
 	</section>
 	<template id="card">
 		<article class="element">
-			<img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="element__image">
+			<img src="<%=require('./images/kirill-pershin-1088404-unsplash.jpg')%>" alt="Карачаевск" class="element__image">
 			<button class="element__delete-button" type="button" aria-label="Удалить"></button>
 			<div class="element__description">
 				<h2 class="element__text">Карачаевск</h2>
@@ -91,7 +91,7 @@
 			</div>
 		</article>
 	</template>
-	<script type="module" src="./scripts/index.js"></script>
+	<!-- <script type="module" src="./index.js"></script> -->
 </body>
 
 </html>

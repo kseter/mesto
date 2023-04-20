@@ -1,4 +1,8 @@
-import { openPopupImage } from "./index.js";
+// import { openPopupImage } from "../index.js";
+// import { PopupWithImage } from "./PopupWithImage.js";
+import {
+	popupImage, popupParagraph, cardContainer
+} from '../utils/constants.js'
 
 //add cards array
 const initialCards = [
@@ -28,16 +32,12 @@ const initialCards = [
 	}
 ];
 
-const popupImage = document.querySelector('.popup__image');
-const popupParagraph = document.querySelector('.popup__paragraph');
-const cardContainer = document.querySelector('.elements'); //get container for cards
-
 class Card {
-	constructor(name, link, templateSelector, openPopupImage) {
-		this._name = name;
-		this._link = link;
+	constructor({ data, handleCardClick}, templateSelector) {
+		this._name = data.name;
+		this._link = data.link;
 		this._templateSelector = templateSelector;
-		this._openPopupImage = openPopupImage;
+		this._handleCardClick = handleCardClick;
 	};
 
 	_getTemplate() {
@@ -67,14 +67,13 @@ class Card {
 	_setEventListeners() {
 		this._cardImage = this._element.querySelector('.element__image');
 		this._cardImage.addEventListener('click', () => {
-			this._openPopupImage(this._name, this._link);
+			this._handleCardClick({name: this._name, link: this._link});
 		});
 
 		this._buttonLike = this._element.querySelector('.element__like-button');
 		this._buttonLike.addEventListener('click', () => {
 			this._handleButtonLike();
 		});
-
 		this._buttonDelete = this._element.querySelector('.element__delete-button');
 		this._buttonDelete.addEventListener('click', () => {
 			this._handleButtonDelete();
