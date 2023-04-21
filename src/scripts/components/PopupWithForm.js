@@ -19,7 +19,7 @@ export class PopupWithForm extends Popup {
     };
 
 
-    _setEventListeners() {
+    setEventListeners() {
 
         super.setEventListeners();
 
