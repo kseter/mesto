@@ -15,7 +15,10 @@
 	</header>
 	<main class="content">
 		<section class="profile">
-			<img src="<%=require('./images/Avatar.jpg')%>" alt="Фото" class="profile__avatar">
+			<div class="profile__container">
+				<img src="<%=require('./images/Avatar.jpg')%>" alt="Фото" class="profile__avatar">
+				<div class="profile__overlay"></div>
+			</div>
 			<div class="profile__info">
 				<h1 class="profile__user-name">Жак-Ив Кусто</h1>
 				<button type="button" class="profile__edit-button"></button>
@@ -65,7 +68,7 @@
 					<input type="url" class="popup__form-item popup__form-item_card_link popup__input" value="" name="link"
 						id="card-link-input" placeholder="Ссылка на картинку" required>
 					<span class="popup__form-item popup__form-item_error card-link-input-error"></span>
-					<input type="submit" value="Создать" class="popup__save-button popup__save-button_type_new-place"
+					<input type="submit" value="Создать" class="popup__submit-button popup__save-button popup__save-button_type_new-place"
 						aria-label="Создать">
 				</div>
 			</form>
@@ -81,13 +84,38 @@
 			</div>
 		</div>
 	</section>
-	<template id="card">
+	<section class="popup popup_type_delete-card">
+		<div class="popup__container popup__container_type_delete-card">
+			<h2 class="popup__question">Вы уверены?</h2>
+			<button type="button" class="popup__close-button" value=" " aria-label="Закрыть"></button>
+			<form action="test" method="get" class="popup__form popup__form_type_delete-card" name="delete" id="delete-form"
+				novalidate>
+			<input type="submit" class="popup__submit-button popup__delete-card-button" value="Да" aria-label="Да">
+			</form>
+		</div>
+	</section>
+	<section class="popup popup_type_avatar">
+		<div class="popup__container popup__container_type_avatar">
+			<h2 class="popup__title">Обновить аватар</h2>
+			<button type="button" class="popup__close-button" value=" " aria-label="Закрыть"></button>
+			<form action="test" method="get" class="popup__form popup__form_type_avatar" name="avatar" id="avatar-form"
+				novalidate>
+			<input type="url" class="popup__form-item popup__form-item_avatar_link popup__input" value="" name="link"
+			id="avatar-link-input" placeholder="Ссылка на картинку" required>
+			<input type="submit" class="popup__submit-button popup__save-button popup__save-button_type_avatar" value="Сохранить" aria-label="Сохранить">
+			</form>
+			</div>
+	</section>
+	<template class="card-template">
 		<article class="element">
 			<img src="<%=require('./images/kirill-pershin-1088404-unsplash.jpg')%>" alt="Карачаевск" class="element__image">
-			<button class="element__delete-button" type="button" aria-label="Удалить"></button>
+			<button class="element__delete-button" type="button" aria-label="Да"></button>
 			<div class="element__description">
 				<h2 class="element__text">Карачаевск</h2>
-				<button type="button" class="element__like-button" aria-label="Нравится"></button>
+				<div class="element__like-container">
+					<button type="button" class="element__like-button" aria-label="Нравится"></button>
+					<div class="element__likes-counter">1</div>
+				</div>
 			</div>
 		</article>
 	</template>

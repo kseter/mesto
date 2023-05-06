@@ -58,8 +58,10 @@ const popupImageFullscreen = document.querySelector('.popup_type_image-fullscree
 const popupImage = document.querySelector('.popup__image');
 const popupParagraph = document.querySelector('.popup__paragraph');
 const cardContainer = document.querySelector('.elements'); //get container for cards
+const avatarOverlay = document.querySelector('.profile__overlay')
+const avatar = document.querySelector('.profile__avatar')
 
 export {
 	buttonEdit, closeButtons, popups, popupProfile, formProfile,nameInput, aboutInput, userName, userAbout, cardAddButton, popupAddCard, 
-	formAddCard, cardNameInput, cardLinkInput, popupImageFullscreen, popupImage, popupParagraph, cardContainer
+	formAddCard, cardNameInput, cardLinkInput, popupImageFullscreen, popupImage, popupParagraph, cardContainer, avatar, avatarOverlay
 }
