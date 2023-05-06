@@ -4,7 +4,9 @@
 .header{border-bottom:1px solid rgba(84,84,84,.7);display:flex;flex-direction:column;margin:45px auto 0;max-width:100%}@media screen and (max-width:350px){.header{margin:28px auto 0}}
 .header__logo{padding-bottom:41px;width:142px}@media screen and (max-width:350px){.header__logo{padding-bottom:31.6px;padding-left:27px;width:103.74px}}
 .profile{align-items:center;-moz-column-gap:30px;column-gap:30px;display:grid;grid-template-columns:120px 336px auto;grid-template-rows:120px;margin:40px auto 50px;max-width:100%}@media screen and (max-width:807px){.profile{align-items:center;grid-template-columns:282px;grid-template-rows:auto auto auto auto;margin:42px auto 36px;max-width:282px}}
-.profile__avatar{border-radius:50%;max-width:120px}@media screen and (max-width:807px){.profile__avatar{margin:0 auto}}
+.profile__overlay{background-color:rgba(0,0,0,.8);background-image:url(8667ac4a523e8fc42e59.svg);background-position:50%;background-repeat:no-repeat;background-size:20%;border-radius:50%;cursor:pointer;height:120px;min-width:120px;opacity:0;position:absolute}.profile__overlay:hover{opacity:1}
+.profile__container{align-items:center;display:flex;justify-content:center;position:relative}
+.profile__avatar{border-radius:50%;max-width:120px;min-height:120px}@media screen and (max-width:807px){.profile__avatar{margin:0 auto}}
 .profile__user-name{color:#fff;font-family:Inter,Arial,sans-serif;font-size:42px;font-style:normal;font-weight:500;line-height:48px;margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:807px){.profile__user-name{font-size:27px;line-height:32.68px;text-align:right}}
 .profile__user-about{color:#fff;font-family:Inter,Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;grid-area:span 2;line-height:22px;margin:0;max-width:100%;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:945px){.profile__user-about{font-size:14px;line-height:18px}}@media screen and (max-width:807px){.profile__user-about{grid-column-end:2;grid-column-start:1;grid-area:span 1;line-height:16.94px;min-width:282px;row-gap:14px;text-align:center}}
 .profile__info{align-items:baseline;display:grid;grid-template-columns:294px auto;max-width:336px;row-gap:10px}@media screen and (max-width:807px){.profile__info{-moz-column-gap:10px;column-gap:10px;grid-template-columns:234px 38px;grid-template-rows:auto auto;justify-content:end;margin-bottom:30px;margin-top:26px}}
@@ -17,7 +19,7 @@
 .element__like-button{background-color:transparent;background-image:url(87ed371465c7a6a1cd01.svg);background-position:50%;background-repeat:no-repeat;background-size:contain;border:none;height:19px;width:22px}.element__like-button:hover{opacity:.5}
 .element__like-button_active{background-image:url(fe17a515669479b1e649.svg)}
 .element__text{box-sizing:border-box;font-family:Inter,Arial,sans-serif;font-size:24px;font-style:normal;font-weight:900;line-height:29.05px;margin:22px 0 28px;max-width:202px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.element__delete-button{background-color:transparent;background-image:url(823b0cf1b0b7e9cb7cad.svg);background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;height:19px;opacity:1;position:absolute;right:20px;top:20px;transition:opacity .1s linear;width:18px}.element__delete-button:hover{cursor:pointer;opacity:.6}
+.element__delete-button{background-color:transparent;background-image:url(823b0cf1b0b7e9cb7cad.svg);background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;height:19px;opacity:0;position:absolute;right:20px;top:20px;transition:opacity .1s linear;visibility:hidden;width:18px}.element__delete-button:hover{cursor:pointer;opacity:.6}
 .footer{margin:66px 0 60px;max-width:318px}@media screen and (max-width:350px){.footer{margin:48px auto 36px;max-width:282px}}
 .footer__copyright{color:#545454;font-family:Inter,Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;line-height:21.78px;margin:0;max-height:14px;padding:0}@media screen and (max-width:320px){.footer__copyright{font-size:14px;line-height:17px}}
 .popup{align-items:center;background-color:rgba(0,0,0,.5);display:flex;height:100%;justify-content:center;left:0;opacity:0;position:fixed;top:0;transition:visibility .5s,opacity .2s linear;visibility:hidden;width:100%}
@@ -36,4 +38,14 @@
 .popup__form-section{display:grid;grid-template-rows:27px minmax(30px,auto);width:100%}
 .popup__save-button_inactive{background:#fff;border:1px solid rgba(0,0,0,.2);color:rgba(0,0,0,.2);font-family:Inter;font-size:18px;font-style:normal;font-weight:400;line-height:22px;text-align:center}
 .popup__input{border:none;border-bottom:1px solid rgba(0,0,0,.2);box-sizing:border-box;font-family:Inter,Arial,sans-serif;font-size:14px;font-style:normal;font-weight:400;line-height:17px;margin-bottom:5px;padding:0 0 9px;width:100%}.popup__input:invalid:-moz-placeholder-shown{border-bottom:1px solid rgba(0,0,0,.2)}.popup__input:invalid:placeholder-shown{border-bottom:1px solid rgba(0,0,0,.2)}.popup__input:invalid{border-bottom:1px solid red}
+.element__likes-counter{color:#000;font-family:Inter,Arial,sans-serif;font-size:13px;font-style:normal;font-weight:400;line-height:16px;margin:0;max-width:10px;text-align:center}
+.element__like-container{align-items:center;display:flex;flex-direction:column;gap:3px}
+.popup__container_type_delete-card{background:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);gap:38px;grid-template-rows:auto auto;justify-content:center;max-width:430px}
+.popup__question{color:#000;font-family:Inter,Arial,sans-serif;font-size:24px;font-style:normal;font-weight:900;line-height:29px;margin:34px 0 0;min-width:358px}
+.popup__delete-card-button{background-color:#000;border:none;border-radius:2px;color:#fff;font-family:Inter,Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;line-height:22px;margin-bottom:36px;min-height:50px;min-width:358px;text-align:center}
+.element__delete-button_active{opacity:1;visibility:visible}
+.popup__container_type_avatar{grid-template-rows:auto 192px};
+.popup__save-button_type_avatar{margin:0}
 
+
+/*# sourceMappingURL=main.css.map*/
