@@ -1,6 +1,6 @@
 export class Section {
-constructor({data, renderer}, containerSelector) {
-    this._cardsArray = data, 
+constructor({renderer}, containerSelector) {
+    // this._cardsArray = data, 
     this._renderer = renderer,
     this._container = document.querySelector(containerSelector)
     };

@@ -23,15 +23,68 @@ import { UserInfo } from './scripts/components/UserInfo.js';
 import { Api } from './scripts/components/Api.js';
 import { PopupDeleteConf } from './scripts/components/PopupDeleteConf';
 
-let userId
-
 const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
     headers: {
-      authorization: 'b63fac32-c5b1-42f9-9fee-f17e7edbad92',
+      authorization: '7b35d477-32d9-48d4-8db2-59c7542ebe1e',
       'Content-Type': 'application/json'
     }
 })
+
+let userId
+
+const createCard = (data) => {
+	const card = new Card({data: data, userId: userId, templateSelector: '.card-template', 
+	handleCardClick: ({ name, link }) => {
+		const popupFullscreenImageOpen = popupFullscreenImage
+		popupFullscreenImageOpen.open({
+			name,
+			link,
+		})
+	}, 
+	handleCardLike: (card) => {
+		if(card.checkUserId()){
+			api.deleteLike(data)
+			.then((res) => {
+				card.deleteLike();
+				card.countLikes(res);
+			});
+		} else {
+			api.setLike(data)
+			.then((res) => {
+				card.setLike();
+				card.countLikes(res);
+			})
+		}
+	}, 
+	handleDeleteButtonClick: (card) => {
+		popupDeleteConfirmation.setSubmitCallback(() => {
+		 api.deleteCard(card._data._id)
+		.then(() => {
+			card.removeCard()
+		})
+		.then(() => {
+			popupDeleteConfirmation.close();
+		})
+		.catch((err) => {
+			console.log(err); 
+		  })
+		})
+		popupDeleteConfirmation.open();
+	}
+})
+	const cardElement = card.generateCard();
+	return cardElement;
+};
+
+const cardList = new Section({  //render card list from server 
+	renderer: (card) => {
+		const cardItem = createCard(card);
+		cardList.addItem(cardItem);
+		}
+	}, 
+	selectors.cardContainerSelector
+		 );
 
 Promise.all([
 	api.requestUserInfo(),
@@ -40,18 +93,18 @@ Promise.all([
 .then(([user, cards]) => {
 	const name = user.name;
 	const about = user.about;
-	userId = user._id
+	userId = user._id;
 	userInfo.setUserInfo({ //get user info from server 
 		name,
 		about,
 	});
 	cardList.renderItems(cards)
 	console.log(cards)
-}
-)
+})
 .catch((err) => {
     console.log(err); 
   });
+
 
 //open form with user info 
 const userInfo = new UserInfo({
@@ -75,7 +128,6 @@ const userInfoFormPopup = new PopupWithForm({
 		.finally(() => {
 			userInfoFormPopup.renderLoading(false, 'Сохранение...')
 		})
-
 		validationProfileForm.disableButton();
 	}
 });
@@ -98,31 +150,6 @@ buttonEdit.addEventListener('click', () => {
 const popupFullscreenImage = new PopupWithImage('.popup_type_image-fullscreen')
 popupFullscreenImage.setEventListeners();
 	
-//click to open fullscreen image 
-function handleCardClick({ name, link }){
-	const popupFullscreenImageOpen = popupFullscreenImage
-	popupFullscreenImageOpen.open({
-		name,
-		link,
-	});
-};
-
-//create a card 
-function createCard(data) {
-	const card = new Card({data, handleCardClick}, '.card-template', handleDeleteButtonClick, userId, api);
-		const cardElement = card.generateCard();
-		return cardElement;
-};
-
-const cardList = new Section({  //render card list from server 
-	items: {},
-	renderer: (card) => {
-		const cardItem = createCard(card);
-		cardList.addItem(cardItem);
-		}
-	}, 
-	selectors.cardContainerSelector
-		 );
 
 //add new card popup
 const newCardFormPopup = new PopupWithForm({
@@ -146,39 +173,36 @@ const newCardFormPopup = new PopupWithForm({
 
 }});
 
-
 newCardFormPopup.setEventListeners();
 
 //create a new card 
 cardAddButton.addEventListener('click', () => {
-
 	const newCardFormPopupOpen = newCardFormPopup;
 	newCardFormPopupOpen.open()
-
 	});
+
+
+const popupDeleteConfirmation = new PopupDeleteConf('.popup_type_delete-card');
+// popupDeleteConfirmation.setEventListeners()
+
+
+// function handleDeleteButtonClick(data) {
+// 		popupDeleteConfirmation.open();
+// 		popupDeleteConfirmation.setEventListeners(data);
+// 	}
 	
-
-
-const popupDeleteConfirmation = new PopupDeleteConf('.popup_type_delete-card', deleteCard)
-
-
-function handleDeleteButtonClick(data) {
-		popupDeleteConfirmation.open();
-		popupDeleteConfirmation.setEventListeners(data);
-	}
-	
-function deleteCard(card) {
-		return api.deleteCard(card.id)
-		.then(() => {
-			card.remove()
-		})
-		.catch((err) => {
-			console.log(err); 
-		  })
-		.finally(() => {
-			popupDeleteConfirmation.renderLoading(false, 'Удаление...')
-		})
-		}
+// function deleteCard(card) {
+// 		return api.deleteCard(card.id)
+// 		.then(() => {
+// 			card.removeCard()
+// 		})
+// 		.catch((err) => {
+// 			console.log(err); 
+// 		  })
+// 		.finally(() => {
+// 			popupDeleteConfirmation.renderLoading(false, 'Удаление...')
+// 		})
+// 		}
 
 
  const avatarFormPopup = new PopupWithForm({

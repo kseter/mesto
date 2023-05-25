@@ -46,25 +46,25 @@ export class Api {
             body: JSON.stringify({
               name: data.name,
               link: data.link,
-            //   likes: data.likes
             })
           })
           .then(this._checkResponse)
      }
 
-     toggleLikeButton(data, userId){
-        if (data.likes.find(item => item._id === userId))
-        {
-          return fetch(`${this.baseUrl}/cards/${data._id}/likes`, {
-            method: 'DELETE',
-            headers: this.headers
-          });
-        }
+     deleteLike(data) {
         return fetch(`${this.baseUrl}/cards/${data._id}/likes`, {
-          method: 'PUT',
-          headers: this.headers
-        })
-        // .then(this._checkResponse)
+                    method: 'DELETE',
+                    headers: this.headers
+                  })
+                  .then(this._checkResponse)
+     }
+
+     setLike(data) {
+        return fetch(`${this.baseUrl}/cards/${data._id}/likes`, {
+                      method: 'PUT',
+                      headers: this.headers
+                    })
+                    .then(this._checkResponse)
      }
 
      deleteCard(data){
@@ -72,7 +72,6 @@ export class Api {
             method: 'DELETE',
             headers: this.headers
           })
-          .then(this._checkResponse)
      }
 
      changeAvatar(data){
@@ -88,36 +87,6 @@ export class Api {
      
      }
 
-    //  checkCardLikes(){
-    //     return fetch(`${this.baseUrl}/cards/${cardID}/likes`, {
-    //         method: 'GET',
-    //         headers: this.headers,
-    //         body: JSON.stringify({
-    //           likes
-    //         })
-    //       })
-    //       .then(this._checkResponse)
-    //  }
-//      deleteCard(cardId){
-//        return  fetch(`${this._baseUrl}/cards/${cardId}`, { //тут надо поствить id карточки 
-//     method: 'DELETE',
-//     headers: this._headers
-//      })
-//     }
-
-//     putLike(cardId){
-//        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-//     method: 'PUT',
-//     headers: this._headers,
-//   });
-//     }
-
-//     deleteLike(cardId){
-//         fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-//   method: 'DELETE',
-//   headers: this._headers,
-// });
-//     }
   
   
 
