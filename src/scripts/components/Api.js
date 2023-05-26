@@ -10,22 +10,22 @@ export class Api {
         } else {
             return Promise.reject(`${res.status} ${res.statsText}`)
         }
-    }
+    };
 
     requestUserInfo(){
        return fetch(`${this.baseUrl}/users/me`, {
         headers: this.headers
        }
     )
-    .then(this._checkResponse)
-    }
+    .then(this._checkResponse);
+    };
    
     getInitialCards(){
         return fetch(`${this.baseUrl}/cards`, {
          headers: this.headers
         })
-        .then(this._checkResponse)
-     }
+        .then(this._checkResponse);
+     };
 
      setUserInfo(data){
         return fetch(`${this.baseUrl}/users/me`, {
@@ -33,11 +33,11 @@ export class Api {
             headers: this.headers,
             body: JSON.stringify({
               name: data.name,
-              about: data.about
+              about: data.about,
             })
           })
           .then(this._checkResponse)
-     }
+     };
 
      addNewCard(data){
         return fetch(`${this.baseUrl}/cards`, {
@@ -49,7 +49,7 @@ export class Api {
             })
           })
           .then(this._checkResponse)
-     }
+     };
 
      deleteLike(data) {
         return fetch(`${this.baseUrl}/cards/${data._id}/likes`, {
@@ -57,7 +57,7 @@ export class Api {
                     headers: this.headers
                   })
                   .then(this._checkResponse)
-     }
+     };
 
      setLike(data) {
         return fetch(`${this.baseUrl}/cards/${data._id}/likes`, {
@@ -65,14 +65,14 @@ export class Api {
                       headers: this.headers
                     })
                     .then(this._checkResponse)
-     }
+     };
 
      deleteCard(data){
         return fetch(`${this.baseUrl}/cards/${data}`, {
             method: 'DELETE',
             headers: this.headers
           })
-     }
+     };
 
      changeAvatar(data){
         return fetch(`${this.baseUrl}/users/me/avatar`, {
@@ -83,8 +83,7 @@ export class Api {
               })
           })
           .then(this._checkResponse)
-     }
-     
+     };
      }
 
   

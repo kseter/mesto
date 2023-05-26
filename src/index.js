@@ -10,7 +10,7 @@ import {
 
 import { 
 	buttonEdit, formProfile, nameInput, aboutInput, cardAddButton, 
-	formAddCard, selectors, avatar, avatarOverlay 
+	formAddCard, selectors, avatar, avatarOverlay, formAvatar
 } from './scripts/utils/constants.js' 
 
 import { Section } from './scripts/components/Section.js';
@@ -30,7 +30,7 @@ const api = new Api({
       'Content-Type': 'application/json'
     }
 })
-
+//create a card 
 let userId
 
 const createCard = (data) => {
@@ -77,6 +77,7 @@ const createCard = (data) => {
 	return cardElement;
 };
 
+//render card to card section 
 const cardList = new Section({  //render card list from server 
 	renderer: (card) => {
 		const cardItem = createCard(card);
@@ -86,6 +87,7 @@ const cardList = new Section({  //render card list from server
 	selectors.cardContainerSelector
 		 );
 
+//get cards and user info on page
 Promise.all([
 	api.requestUserInfo(),
 	api.getInitialCards()
@@ -93,23 +95,30 @@ Promise.all([
 .then(([user, cards]) => {
 	const name = user.name;
 	const about = user.about;
+	const avatar = user.avatar;
 	userId = user._id;
 	userInfo.setUserInfo({ //get user info from server 
 		name,
 		about,
+		avatar,
 	});
 	cardList.renderItems(cards)
-	console.log(cards)
 })
 .catch((err) => {
     console.log(err); 
   });
 
+//add a new card button 
+  cardAddButton.addEventListener('click', () => {
+	newCardFormPopup.open()
+	validationCardForm.disableButton();
+	});
 
 //open form with user info 
 const userInfo = new UserInfo({
 	userInfoSelector: '.profile__user-name',
-	userAboutSelector: '.profile__user-about'
+	userAboutSelector: '.profile__user-about',
+	userAvatarSelector: '.profile__avatar',
 });
 
 //change user info 
@@ -117,25 +126,24 @@ const userInfoFormPopup = new PopupWithForm({
 	popupSelector: '.popup_type_user',
 	handleFormSubmit: ({name, about}) => {
 		const data = {name, about}
-		userInfo.setUserInfo({
-			name,
-			about,
-		});
+		userInfoFormPopup.renderLoading(true, 'Cохранить', 'Сохранение...')
 		api.setUserInfo(data) //patch new user info 
+		.then(() => {
+			userInfo.setUserInfo({
+				name,
+				about,
+			});
+		})
 		.catch((err) => {
 			console.log(err); 
 		  })
 		.finally(() => {
-			userInfoFormPopup.renderLoading(false, 'Сохранение...')
+			userInfoFormPopup.renderLoading(false, 'Cохранить', 'Сохранение...')
 		})
-		validationProfileForm.disableButton();
 	}
 });
 
-userInfoFormPopup.setEventListeners();
-
-
-//put the edit user info button 
+//handle the edit user info button 
 buttonEdit.addEventListener('click', () => {
 	const inputData = userInfo.getUserInfo();
 
@@ -144,19 +152,20 @@ buttonEdit.addEventListener('click', () => {
 	
 	const popupFormOpen = userInfoFormPopup
 	popupFormOpen.open();
+	validationProfileForm.disableButton();
+
 });
 
 //open fullscreen image card
 const popupFullscreenImage = new PopupWithImage('.popup_type_image-fullscreen')
 popupFullscreenImage.setEventListeners();
-	
 
 //add new card popup
 const newCardFormPopup = new PopupWithForm({
 	popupSelector: '.popup_type_new-place', 
 	handleFormSubmit: ({ name, link }) => {
-
 		const data = { name, link }
+		newCardFormPopup.renderLoading(true, 'Cохранить', 'Сохранение...')
 		api.addNewCard(data)
 		.then((card) => {
 			const newCardItem = createCard(card)
@@ -166,49 +175,20 @@ const newCardFormPopup = new PopupWithForm({
 			console.log(err); 
 		  })
 		.finally(() => {
-			newCardFormPopup.renderLoading(false, 'Удаление...')
+			newCardFormPopup.renderLoading(false, 'Cохранить', 'Сохранение...')
 		})
-
-		validationCardForm.disableButton();
 
 }});
 
-newCardFormPopup.setEventListeners();
-
-//create a new card 
-cardAddButton.addEventListener('click', () => {
-	const newCardFormPopupOpen = newCardFormPopup;
-	newCardFormPopupOpen.open()
-	});
-
-
+//create popup with card delete confirmation
 const popupDeleteConfirmation = new PopupDeleteConf('.popup_type_delete-card');
-// popupDeleteConfirmation.setEventListeners()
 
-
-// function handleDeleteButtonClick(data) {
-// 		popupDeleteConfirmation.open();
-// 		popupDeleteConfirmation.setEventListeners(data);
-// 	}
-	
-// function deleteCard(card) {
-// 		return api.deleteCard(card.id)
-// 		.then(() => {
-// 			card.removeCard()
-// 		})
-// 		.catch((err) => {
-// 			console.log(err); 
-// 		  })
-// 		.finally(() => {
-// 			popupDeleteConfirmation.renderLoading(false, 'Удаление...')
-// 		})
-// 		}
-
-
+//avatar change popup
  const avatarFormPopup = new PopupWithForm({
 	popupSelector: '.popup_type_avatar', 
 	handleFormSubmit: (data) => {
-		console.log('bingo')
+		avatarFormPopup.renderLoading(true, 'Cохранить', 'Сохранение...')
+
 		api.changeAvatar(data)
 		.then(data => {
 			avatar.src = data.avatar;
@@ -217,15 +197,14 @@ const popupDeleteConfirmation = new PopupDeleteConf('.popup_type_delete-card');
 			console.log(err); 
 		  })
 		.finally(() => {
-			avatarFormPopup.renderLoading(false, 'Сохранение...')
+			avatarFormPopup.renderLoading(false, 'Cохранить', 'Сохранение...')
 		})
 	}
 })
 
 avatarOverlay.addEventListener('click', () => {
 			avatarFormPopup.open();
-			avatarFormPopup.setEventListeners();
-			validationCardForm.disableButton();
+			validationAvatarForm.disableButton();
 	});
 
 //validation for forms 
@@ -234,3 +213,6 @@ validationProfileForm.enableValidation();
 
 const validationCardForm = new FormValidator(selectors, formAddCard);
 validationCardForm.enableValidation();
+
+const validationAvatarForm = new FormValidator(selectors, formAvatar);
+validationAvatarForm.enableValidation();

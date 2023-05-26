@@ -45,6 +45,7 @@ const nameInput = document.querySelector(selectors.nameInputSelector);
 const aboutInput = document.querySelector(selectors.aboutInputSelector);
 const userName = document.querySelector(selectors.userNameSelector);
 const userAbout = document.querySelector(selectors.userAboutSelector);
+const formAvatar = document.forms['avatar-form'];
 
 //variables for pop-up to add a card 
 const cardAddButton = document.querySelector(selectors.cardAddButtonSelector);
@@ -63,5 +64,5 @@ const avatar = document.querySelector('.profile__avatar')
 
 export {
 	buttonEdit, closeButtons, popups, popupProfile, formProfile,nameInput, aboutInput, userName, userAbout, cardAddButton, popupAddCard, 
-	formAddCard, cardNameInput, cardLinkInput, popupImageFullscreen, popupImage, popupParagraph, cardContainer, avatar, avatarOverlay
+	formAddCard, cardNameInput, cardLinkInput, popupImageFullscreen, popupImage, popupParagraph, cardContainer, avatar, avatarOverlay, formAvatar
 }
