@@ -6,7 +6,7 @@
 .profile{align-items:center;-moz-column-gap:30px;column-gap:30px;display:grid;grid-template-columns:120px 336px auto;grid-template-rows:120px;margin:40px auto 50px;max-width:100%}@media screen and (max-width:807px){.profile{align-items:center;grid-template-columns:282px;grid-template-rows:auto auto auto auto;margin:42px auto 36px;max-width:282px}}
 .profile__overlay{background-color:rgba(0,0,0,.8);background-image:url(8667ac4a523e8fc42e59.svg);background-position:50%;background-repeat:no-repeat;background-size:20%;border-radius:50%;cursor:pointer;height:120px;min-width:120px;opacity:0;position:absolute}.profile__overlay:hover{opacity:1}
 .profile__container{align-items:center;display:flex;justify-content:center;position:relative}
-.profile__avatar{border-radius:50%;max-width:120px;min-height:120px}@media screen and (max-width:807px){.profile__avatar{margin:0 auto}}
+.profile__avatar{border-radius:50%;height:120px;width:120px}@media screen and (max-width:807px){.profile__avatar{margin:0 auto}}
 .profile__user-name{color:#fff;font-family:Inter,Arial,sans-serif;font-size:42px;font-style:normal;font-weight:500;line-height:48px;margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:807px){.profile__user-name{font-size:27px;line-height:32.68px;text-align:right}}
 .profile__user-about{color:#fff;font-family:Inter,Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;grid-area:span 2;line-height:22px;margin:0;max-width:100%;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:945px){.profile__user-about{font-size:14px;line-height:18px}}@media screen and (max-width:807px){.profile__user-about{grid-column-end:2;grid-column-start:1;grid-area:span 1;line-height:16.94px;min-width:282px;row-gap:14px;text-align:center}}
 .profile__info{align-items:baseline;display:grid;grid-template-columns:294px auto;max-width:336px;row-gap:10px}@media screen and (max-width:807px){.profile__info{-moz-column-gap:10px;column-gap:10px;grid-template-columns:234px 38px;grid-template-rows:auto auto;justify-content:end;margin-bottom:30px;margin-top:26px}}
@@ -45,7 +45,7 @@
 .popup__delete-card-button{background-color:#000;border:none;border-radius:2px;color:#fff;font-family:Inter,Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;line-height:22px;margin-bottom:36px;min-height:50px;min-width:358px;text-align:center}
 .element__delete-button_active{opacity:1;visibility:visible}
 .popup__container_type_avatar{grid-template-rows:auto 192px}
-.popup__save-button_type_avatar{margin:0}
+.popup__save-button_type_avatar{margin-top:40px}
 
 
 /*# sourceMappingURL=main.css.map*/
