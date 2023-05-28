@@ -15,12 +15,17 @@ export class UserInfo {
     };
 
     setUserInfo({name, about, avatar}){
+        if(name,about){
         this._userInfo.textContent = name;
-        this._userAbout.textContent = about;
+        this._userAbout.textContent = about; 
+        }else{
+            this.getUserInfo();
+        };
+
         if(avatar){
             this._userAvatar.src = avatar;
         } else {
             this.getUserInfo();
-        }
+        };
     };
 }

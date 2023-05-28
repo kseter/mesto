@@ -7,14 +7,6 @@ export class PopupDeleteConf extends Popup {
         this.setEventListeners();
     };
 
-open(){
-    super.open();
-};
-
-close() {
-    super.close();
- };
-
 setSubmitCallback(action) {
     this._handleFormSubmit = action;
  };

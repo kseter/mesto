@@ -134,6 +134,9 @@ const userInfoFormPopup = new PopupWithForm({
 				about,
 			});
 		})
+		.then(() => {
+			userInfoFormPopup.close();
+		})
 		.catch((err) => {
 			console.log(err); 
 		  })
@@ -171,6 +174,9 @@ const newCardFormPopup = new PopupWithForm({
 			const newCardItem = createCard(card)
 			cardList.addNewItem(newCardItem);
 		})
+		.then(()=> {
+			newCardFormPopup.close();
+		})
 		.catch((err) => {
 			console.log(err); 
 		  })
@@ -186,12 +192,17 @@ const popupDeleteConfirmation = new PopupDeleteConf('.popup_type_delete-card');
 //avatar change popup
  const avatarFormPopup = new PopupWithForm({
 	popupSelector: '.popup_type_avatar', 
-	handleFormSubmit: (data) => {
+	handleFormSubmit: ({ avatar }) => {
+		const data = { avatar };
 		avatarFormPopup.renderLoading(true, 'Cохранить', 'Сохранение...')
-
 		api.changeAvatar(data)
-		.then(data => {
-			avatar.src = data.avatar;
+		.then(()=> {
+			userInfo.setUserInfo({
+				avatar
+			});
+		})
+		.then(()=> {
+			avatarFormPopup.close();
 		})
 		.catch((err) => {
 			console.log(err); 
